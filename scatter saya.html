@@ -1,749 +1,2202 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Pisahkan Data Tiket</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #121212 url('https://media.linklist.bio/backgrounds/Zq7Qb762Xj6KaUWUSEPXCDpmKLCATryoNbbjK7Er.webp') no-repeat center center fixed;
-      background-size: cover;
-      color: #ffffff;
-      padding: 30px;
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-    }
+<title>Pisahkan Data Tiket</title>
+<style>
+body {
+font-family: Arial, sans-serif;
+background: #121212;
+color: #ffffff;
+padding: 30px;
+margin: 0;
+min-height: 100vh;
+display: flex;
+justify-content: center;
+align-items: center;
+position: relative;
+}
 
-    /* Overlay untuk meningkatkan keterbacaan teks */
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(18, 18, 18, 0.85);
-      z-index: -1;
-    }
+/* Overlay untuk meningkatkan keterbacaan teks */
+body::before {
+content: '';
+position: fixed;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background: rgba(18, 18, 18, 0.85);
+z-index: -1;
+}
 
-    /* KOTAK MARGIN AREA HANYA DI TENGAH - SEKITAR KONTEN DENGAN GARIS BIRU */
-    .main-container::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: calc(100% + 100px); /* Lebih lebar dari konten */
-      height: calc(100% + 100px); /* Lebih tinggi dari konten */
-      background: rgba(0, 0, 0, 0.7); /* Hitam transparan */
-      border-radius: 20px;
-      z-index: -1;
-      box-shadow: 
-        0 0 50px rgba(0, 0, 0, 0.8),
-        inset 0 0 30px rgba(0, 180, 216, 0.1);
-      /* GARIS TEPI BIRU */
-      border: 2px solid #00b4d8;
-      box-shadow: 
-        0 0 30px rgba(0, 180, 216, 0.3),
-        0 0 50px rgba(0, 0, 0, 0.8),
-        inset 0 0 30px rgba(0, 180, 216, 0.1);
-    }
+/* KOTAK MARGIN AREA HANYA DI TENGAH - SEKITAR KONTEN DENGAN GARIS BIRU */
+.main-container::before {
+content: '';
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+width: calc(100% + 80px);
+height: calc(100% + 80px);
+background: rgba(0, 0, 0, 0.7);
+border-radius: 15px;
+z-index: -1;
+box-shadow:
+0 0 30px rgba(0, 0, 0, 0.8),
+inset 0 0 15px rgba(0, 180, 216, 0.1);
+border: 2px solid #00b4d8;
+box-shadow:
+0 0 20px rgba(0, 180, 216, 0.3),
+0 0 30px rgba(0, 0, 0, 0.8),
+inset 0 0 15px rgba(0, 180, 216, 0.1);
+}
 
-    .main-container {
-      display: flex;
-      gap: 30px;
-      max-width: 1200px;
-      width: 100%;
-      justify-content: center;
-      align-items: flex-start;
-      position: relative;
-      z-index: 1;
-    }
+.main-container {
+display: flex;
+gap: 30px;
+max-width: 1100px; /* DIPERBESAR dari 1000px */
+width: 100%;
+justify-content: center;
+align-items: flex-start;
+position: relative;
+z-index: 1;
+}
 
-    .center-section {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 500px;
-    }
+.center-section {
+display: flex;
+flex-direction: column;
+align-items: center;
+width: 650px; /* DIPERBESAR dari 560px */
+}
 
-    .preview-section {
-      width: 400px;
-    }
+.preview-section {
+width: 380px;
+}
 
-    .input-container {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+.input-container {
+width: 100%;
+display: flex;
+flex-direction: column;
+align-items: center;
+}
 
-    /* JUDUL UTAMA DI TENGAH */
-    .title-container {
-      text-align: center;
-      margin-bottom: 30px;
-      width: 100%;
-    }
+/* JUDUL UTAMA DI TENGAH */
+.title-container {
+text-align: center;
+margin-bottom: 25px;
+width: 100%;
+}
 
-    .main-title {
-      color: #00b4d8;
-      font-size: 28px;
-      font-weight: bold;
-      text-align: center;
-      margin-bottom: 8px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
+.main-title {
+color: #00b4d8;
+font-size: 26px;
+font-weight: bold;
+text-align: center;
+margin-bottom: 8px;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+}
 
-    .sub-title {
-      color: #00b4d8;
-      font-size: 20px;
-      text-align: center;
-      margin-bottom: 15px;
-      font-weight: normal;
-      position: relative;
-      padding-bottom: 20px;
-    }
+.sub-title {
+color: #00b4d8;
+font-size: 18px;
+text-align: center;
+margin-bottom: 15px;
+font-weight: normal;
+position: relative;
+padding-bottom: 15px;
+}
 
-    /* GARIS DI BAWAH SUBTITLE */
-    .sub-title::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 300px;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, #00b4d8, #00b4d8, transparent);
-      border-radius: 2px;
-    }
+/* GARIS DI BAWAH SUBTITLE */
+.sub-title::after {
+content: '';
+position: absolute;
+bottom: 0;
+left: 50%;
+transform: translateX(-50%);
+width: 260px;
+height: 2px;
+background: linear-gradient(90deg, transparent, #00b4d8, #00b4d8, transparent);
+border-radius: 2px;
+}
 
-    .section-title {
-      color: #00b4d8;
-      margin-bottom: 20px;
-      font-size: 18px;
-      font-weight: bold;
-      text-align: center;
-      width: 100%;
-    }
+/* Style untuk menu button */
+.menu-container {
+width: 100%;
+margin-bottom: 15px;
+}
 
-    textarea {
-      width: 100%;
-      height: 120px;
-      margin-bottom: 10px;
-      background: rgba(30, 30, 30, 0.9);
-      color: #ffffff;
-      border: 1px solid #2e2e2e;
-      padding: 10px;
-      border-radius: 4px;
-      box-sizing: border-box;
-      backdrop-filter: blur(5px);
-    }
+.scatter-buttons {
+display: flex;
+gap: 10px;
+flex-wrap: wrap;
+}
 
-    .clear-btn {
-      background: none;
-      border: 1px solid #007b9e;
-      border-radius: 4px;
-      color: #00b4d8;
-      cursor: pointer;
-      padding: 5px 12px;
-      font-size: 14px;
-      margin-bottom: 20px;
-      backdrop-filter: blur(5px);
-      background: rgba(30, 30, 30, 0.8);
-      align-self: flex-start;
-    }
+.scatter-btn {
+flex: 1;
+min-width: 140px;
+padding: 12px 16px;
+background: rgba(30, 30, 30, 0.9);
+color: #00b4d8;
+border: 1px solid #007b9e;
+border-radius: 6px;
+font-size: 14px;
+cursor: pointer;
+backdrop-filter: blur(5px);
+transition: all 0.3s ease;
+text-align: center;
+font-weight: bold;
+text-transform: uppercase;
+}
 
-    .clear-btn:hover {
-      background-color: #007b9e;
-      color: #ffffff;
-    }
+.scatter-btn:hover {
+background: rgba(0, 123, 158, 0.3);
+transform: translateY(-2px);
+}
 
-    .data-box {
-      background: rgba(26, 26, 26, 0.9);
-      border: 2px solid #007b9e;
-      border-radius: 8px;
-      padding: 12px 14px;
-      margin-bottom: 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      backdrop-filter: blur(5px);
-      width: 100%;
-      box-sizing: border-box;
-      min-height: 50px;
-    }
+.scatter-btn.active {
+background: #00b4d8;
+color: #121212;
+border-color: #00b4d8;
+box-shadow: 0 0 15px rgba(0, 180, 216, 0.5);
+}
 
-    .label {
-      font-weight: bold;
-      color: #00b4d8;
-      width: 100px;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-    }
+.section-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+width: 100%;
+margin-bottom: 15px;
+}
 
-    .value {
-      flex-grow: 1;
-      margin: 0 10px;
-      word-break: break-word;
-      color: #e0f7ff;
-      display: flex;
-      align-items: center;
-      min-height: 20px;
-      width: 300px;
-      max-width: 300px;
-      min-width: 300px;
-    }
+.section-title {
+color: #00b4d8;
+font-size: 16px;
+font-weight: bold;
+text-align: left;
+}
 
-    .copy-btn {
-      background: rgba(0, 180, 216, 0.2); /* Background biru transparan */
-      border: 1px solid #00b4d8;
-      border-radius: 6px;
-      cursor: pointer;
-      padding: 8px;
-      display: flex;
-      align-items: center;
-      flex-shrink: 0;
-      outline: none;
-      transition: all 0.3s ease;
-      min-width: 40px;
-      min-height: 40px;
-      justify-content: center;
-    }
+textarea {
+width: 100%;
+height: 130px;
+margin-bottom: 12px;
+background: rgba(30, 30, 30, 0.9);
+color: #ffffff;
+border: 1px solid #2e2e2e;
+padding: 12px;
+border-radius: 6px;
+box-sizing: border-box;
+backdrop-filter: blur(5px);
+font-size: 14px;
+}
 
-    .copy-btn:hover {
-      background: rgba(0, 180, 216, 0.4);
-      border-color: #00b4d8;
-      transform: scale(1.05);
-    }
+.clear-btn {
+background: none;
+border: 1px solid #007b9e;
+border-radius: 6px;
+color: #00b4d8;
+cursor: pointer;
+padding: 8px 18px;
+font-size: 15px;
+margin-bottom: 30px;
+backdrop-filter: blur(5px);
+background: rgba(30, 30, 30, 0.8);
+align-self: flex-start;
+transition: all 0.3s ease;
+}
 
-    .copy-btn:focus {
-      outline: 2px solid #00b4d8;
-      outline-offset: 2px;
-      background: rgba(0, 180, 216, 0.3);
-    }
+.clear-btn:hover {
+background-color: #007b9e;
+color: #ffffff;
+transform: scale(1.05);
+}
 
-    .copy-btn:active {
-      transform: scale(0.95);
-      background: rgba(0, 180, 216, 0.5);
-    }
+/* Judul DATA SCATTER */
+.data-scatter-title {
+color: #00b4d8;
+font-size: 18px;
+font-weight: bold;
+text-align: center;
+margin-bottom: 20px;
+width: 100%;
+position: relative;
+padding-bottom: 15px;
+}
 
-    .copy-btn svg {
-      fill: #00b4d8;
-      transition: fill 0.2s ease;
-    }
+/* GARIS DI BAWAH DATA SCATTER */
+.data-scatter-title::after {
+content: '';
+position: absolute;
+bottom: 0;
+left: 50%;
+transform: translateX(-50%);
+width: 220px;
+height: 2px;
+background: linear-gradient(90deg, transparent, #00b4d8, #00b4d8, transparent);
+border-radius: 2px;
+}
 
-    .copy-btn:hover svg {
-      fill: #ffffff;
-    }
+.data-box {
+background: rgba(26, 26, 26, 0.9);
+border: 2px solid #007b9e;
+border-radius: 8px;
+padding: 12px 14px;
+margin-bottom: 12px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+backdrop-filter: blur(5px);
+width: 100%;
+box-sizing: border-box;
+min-height: 48px;
+}
 
-    /* Styling untuk preview gambar */
-    .preview-section {
-      background: rgba(26, 26, 26, 0.9);
-      border: 2px solid #007b9e;
-      border-radius: 8px;
-      padding: 20px;
-      backdrop-filter: blur(5px);
-      height: fit-content;
-    }
+.label {
+font-weight: bold;
+color: #00b4d8;
+width: 90px;
+flex-shrink: 0;
+display: flex;
+align-items: center;
+font-size: 14px;
+}
 
-    .images-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 15px;
-    }
+.value {
+flex-grow: 1;
+margin: 0 8px;
+word-break: break-word;
+color: #e0f7ff;
+display: flex;
+align-items: center;
+min-height: 18px;
+width: 260px;
+max-width: 260px;
+min-width: 260px;
+font-size: 14px;
+}
 
-    .image-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      background: rgba(30, 30, 30, 0.9);
-      padding: 15px;
-      border-radius: 8px;
-      border: 1px solid #2e2e2e;
-      backdrop-filter: blur(5px);
-    }
+.copy-btn {
+background: rgba(0, 180, 216, 0.2);
+border: 1px solid #00b4d8;
+border-radius: 6px;
+cursor: pointer;
+padding: 8px;
+display: flex;
+align-items: center;
+flex-shrink: 0;
+outline: none;
+transition: all 0.3s ease;
+min-width: 36px;
+min-height: 36px;
+justify-content: center;
+}
 
-    .image-title {
-      color: #00b4d8;
-      font-weight: bold;
-      margin-bottom: 10px;
-      font-size: 14px;
-    }
+.copy-btn:hover {
+background: rgba(0, 180, 216, 0.4);
+border-color: #00b4d8;
+transform: scale(1.05);
+}
 
-    .image-preview {
-      max-width: 100%;
-      max-height: 200px;
-      border-radius: 6px;
-      border: 2px solid #007b9e;
-      display: none;
-      cursor: pointer;
-      transition: transform 0.2s ease, border-color 0.2s ease;
-    }
+.copy-btn:focus {
+outline: 2px solid #00b4d8;
+outline-offset: 2px;
+background: rgba(0, 180, 216, 0.3);
+}
 
-    .image-preview:hover {
-      transform: scale(1.02);
-      border-color: #00b4d8;
-    }
+.copy-btn:active {
+transform: scale(0.95);
+background: rgba(0, 180, 216, 0.5);
+}
 
-    .image-placeholder {
-      width: 200px;
-      height: 150px;
-      background: rgba(26, 26, 26, 0.9);
-      border: 2px dashed #007b9e;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #00b4d8;
-      font-size: 12px;
-      text-align: center;
-      cursor: default;
-    }
+.copy-btn svg {
+fill: #00b4d8;
+transition: fill 0.2s ease;
+width: 18px;
+height: 18px;
+}
 
-    .image-error {
-      color: #ff6b6b;
-      font-size: 11px;
-      margin-top: 5px;
-      display: none;
-    }
+.copy-btn:hover svg {
+fill: #ffffff;
+}
 
-    .image-loading {
-      display: none;
-      color: #00b4d8;
-      font-size: 11px;
-      margin-top: 5px;
-    }
+/* Styling untuk preview gambar */
+.preview-section {
+background: rgba(26, 26, 26, 0.9);
+border: 2px solid #007b9e;
+border-radius: 8px;
+padding: 16px;
+backdrop-filter: blur(5px);
+height: fit-content;
+}
 
-    .no-preview {
-      text-align: center;
-      color: #666;
-      font-style: italic;
-      padding: 40px 20px;
-    }
+.images-grid {
+display: grid;
+grid-template-columns: 1fr;
+gap: 14px;
+}
 
-    /* Style untuk nilai kosong */
-    .empty-value {
-      color: #666;
-      font-style: italic;
-      display: flex;
-      align-items: center;
-      width: 100%;
-    }
+.image-item {
+display: flex;
+flex-direction: column;
+align-items: center;
+background: rgba(30, 30, 30, 0.9);
+padding: 12px;
+border-radius: 8px;
+border: 1px solid #2e2e2e;
+backdrop-filter: blur(5px);
+}
 
-    /* Style untuk nilai dengan data */
-    .value-content {
-      display: flex;
-      align-items: center;
-      width: 100%;
-    }
+.image-title {
+color: #00b4d8;
+font-weight: bold;
+margin-bottom: 8px;
+font-size: 14px;
+}
 
-    /* Link container untuk multiple links */
-    .links-container {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      width: 100%;
-    }
+.image-preview {
+max-width: 100%;
+max-height: 180px;
+border-radius: 6px;
+border: 2px solid #007b9e;
+display: none;
+cursor: pointer;
+transition: transform 0.2s ease, border-color 0.2s ease;
+}
 
-    .link-item {
-      display: flex;
-      align-items: center;
-      min-height: 20px;
-    }
+.image-preview:hover {
+transform: scale(1.02);
+border-color: #00b4d8;
+}
 
-    .value a {
-      color: #00b4d8;
-      text-decoration: none;
-      word-break: break-all;
-      outline: none;
-    }
+.image-placeholder {
+width: 180px;
+height: 140px;
+background: rgba(26, 26, 26, 0.9);
+border: 2px dashed #007b9e;
+border-radius: 8px;
+display: flex;
+align-items: center;
+justify-content: center;
+color: #00b4d8;
+font-size: 12px;
+text-align: center;
+cursor: default;
+}
 
-    .value a:focus {
-      outline: 2px solid #00b4d8;
-      outline-offset: 2px;
-      border-radius: 2px;
-    }
+.image-error {
+color: #ff6b6b;
+font-size: 11px;
+margin-top: 4px;
+display: none;
+}
 
-    .value a:hover {
-      color: #ffffff;
-      text-decoration: underline;
-    }
+.image-loading {
+display: none;
+color: #00b4d8;
+font-size: 11px;
+margin-top: 4px;
+}
 
-    /* Feedback untuk copy berhasil */
-    .copy-success {
-      color: #00ff88 !important;
-    }
-  </style>
+.no-preview {
+text-align: center;
+color: #666;
+font-style: italic;
+padding: 30px 16px;
+font-size: 14px;
+}
+
+/* Style untuk nilai kosong */
+.empty-value {
+color: #666;
+font-style: italic;
+display: flex;
+align-items: center;
+width: 100%;
+}
+
+/* Style untuk nilai dengan data */
+.value-content {
+display: flex;
+align-items: center;
+width: 100%;
+}
+
+/* Link container untuk multiple links */
+.links-container {
+display: flex;
+flex-direction: column;
+gap: 4px;
+width: 100%;
+}
+
+.link-item {
+display: flex;
+align-items: center;
+min-height: 18px;
+}
+
+.value a {
+color: #00b4d8;
+text-decoration: none;
+word-break: break-all;
+outline: none;
+font-size: 13px;
+}
+
+.value a:focus {
+outline: 2px solid #00b4d8;
+outline-offset: 2px;
+border-radius: 2px;
+}
+
+.value a:hover {
+color: #ffffff;
+text-decoration: underline;
+}
+
+/* Feedback untuk copy berhasil */
+.copy-success {
+color: #00ff88 !important;
+}
+
+/* Style untuk toggle switch TS */
+.ts-toggle-container {
+display: flex;
+align-items: center;
+gap: 8px;
+}
+
+.ts-toggle-label {
+color: #00b4d8;
+font-weight: bold;
+font-size: 14px;
+}
+
+/* Toggle Switch */
+.ts-toggle {
+position: relative;
+display: inline-block;
+width: 50px;
+height: 26px;
+}
+
+.ts-toggle input {
+opacity: 0;
+width: 0;
+height: 0;
+}
+
+.ts-slider {
+position: absolute;
+cursor: pointer;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background-color: #007b9e;
+transition: .4s;
+border-radius: 26px;
+}
+
+.ts-slider:before {
+position: absolute;
+content: "";
+height: 20px;
+width: 20px;
+left: 3px;
+bottom: 3px;
+background-color: white;
+transition: .4s;
+border-radius: 50%;
+}
+
+input:checked + .ts-slider {
+background-color: #00b4d8;
+}
+
+input:checked + .ts-slider:before {
+transform: translateX(24px);
+}
+
+.ts-badge {
+color: #00ff88;
+font-weight: bold;
+margin-left: 4px;
+display: none;
+font-size: 14px;
+}
+
+/* Style untuk Perhitungan Scatter */
+.perhitungan-container {
+display: none;
+background: rgba(26, 26, 26, 0.9);
+border: 2px solid #007b9e;
+border-radius: 8px;
+padding: 16px;
+margin-top: 15px;
+backdrop-filter: blur(5px);
+width: 100%;
+}
+
+.perhitungan-title {
+color: #00b4d8;
+font-size: 16px;
+font-weight: bold;
+margin-bottom: 12px;
+text-align: center;
+}
+
+.seamless-input {
+width: 100%;
+height: 130px;
+margin-bottom: 12px;
+background: rgba(30, 30, 30, 0.9);
+color: #ffffff;
+border: 1px solid #2e2e2e;
+padding: 10px;
+border-radius: 6px;
+box-sizing: border-box;
+backdrop-filter: blur(5px);
+font-size: 13px;
+}
+
+.hasil-perhitungan {
+background: rgba(30, 30, 30, 0.9);
+border: 1px solid #2e2e2e;
+border-radius: 6px;
+padding: 12px;
+margin-top: 10px;
+}
+
+.hasil-item {
+display: flex;
+justify-content: space-between;
+margin-bottom: 8px;
+padding-bottom: 8px;
+border-bottom: 1px solid #2e2e2e;
+}
+
+.hasil-item:last-child {
+margin-bottom: 0;
+padding-bottom: 0;
+border-bottom: none;
+}
+
+.hasil-label {
+color: #00b4d8;
+font-weight: bold;
+}
+
+.hasil-nilai {
+color: #e0f7ff;
+}
+
+.cocok {
+color: #00ff88;
+font-weight: bold;
+}
+
+.tidak-cocok {
+color: #ff6b6b;
+font-weight: bold;
+}
+
+/* PERBAIKAN: Container untuk input kemenangan naga dan saldo kanan bersebelahan */
+.input-row-container {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 12px;
+margin-bottom: 12px;
+}
+
+.input-kemenangan-container {
+background: rgba(30, 30, 30, 0.9);
+border: 1px solid #2e2e2e;
+border-radius: 6px;
+padding: 12px;
+}
+
+.input-kemenangan-title {
+color: #00b4d8;
+font-size: 14px;
+font-weight: bold;
+margin-bottom: 8px;
+text-align: center;
+}
+
+.kemenangan-input-group {
+display: flex;
+gap: 10px;
+align-items: center;
+}
+
+.kemenangan-input {
+flex: 1;
+background: rgba(40, 40, 40, 0.9);
+border: 1px solid #2e2e2e;
+border-radius: 4px;
+padding: 8px 12px;
+color: #ffffff;
+font-size: 14px;
+}
+
+/* Style untuk saldo kanan */
+.saldo-kanan-container {
+background: rgba(30, 30, 30, 0.9);
+border: 1px solid #2e2e2e;
+border-radius: 6px;
+padding: 12px;
+}
+
+.saldo-kanan-title {
+color: #00b4d8;
+font-size: 14px;
+font-weight: bold;
+margin-bottom: 8px;
+text-align: center;
+}
+
+.saldo-kanan-input-group {
+display: flex;
+gap: 10px;
+align-items: center;
+}
+
+.saldo-kanan-input {
+flex: 1;
+background: rgba(40, 40, 40, 0.9);
+border: 1px solid #2e2e2e;
+border-radius: 4px;
+padding: 8px 12px;
+color: #ffffff;
+font-size: 14px;
+}
+
+.saldo-kanan-info {
+font-size: 12px;
+color: #00b4d8;
+margin-top: 4px;
+text-align: center;
+}
+
+/* Style untuk contoh gambar */
+.contoh-gambar-container {
+background: rgba(30, 30, 30, 0.9);
+border: 1px solid #2e2e2e;
+border-radius: 6px;
+padding: 12px;
+margin-bottom: 12px;
+}
+
+.contoh-gambar-title {
+color: #00b4d8;
+font-size: 14px;
+font-weight: bold;
+margin-bottom: 8px;
+text-align: center;
+}
+
+/* REVISI: Container untuk contoh gambar gabungan */
+.contoh-gambar-item {
+display: flex;
+flex-direction: column;
+align-items: center;
+width: 100%;
+}
+
+.contoh-gambar {
+max-width: 100%;
+max-height: 150px; /* Ukuran yang lebih besar untuk gambar gabungan */
+border-radius: 6px;
+border: 2px solid #007b9e;
+cursor: pointer;
+transition: transform 0.2s ease, border-color 0.2s ease;
+width: 100%;
+object-fit: contain; /* Memastikan seluruh gambar terlihat */
+}
+
+.contoh-gambar:hover {
+transform: scale(1.02);
+border-color: #00b4d8;
+}
+
+.contoh-gambar-label {
+color: #00b4d8;
+font-size: 12px;
+margin-top: 8px;
+text-align: center;
+}
+
+/* Canvas untuk menggabungkan gambar (hidden) */
+#mergeCanvas {
+display: none;
+}
+
+/* Style untuk tombol copy yang sudah diklik */
+.copy-btn.copied {
+background: rgba(0, 255, 136, 0.2);
+border-color: #00ff88;
+}
+
+.copy-btn.copied::after {
+content: "✓";
+color: #00ff88;
+font-size: 16px;
+font-weight: bold;
+}
+
+.copy-btn.copied svg {
+display: none;
+}
+
+/* Modal untuk preview gambar besar */
+.modal {
+display: none;
+position: fixed;
+z-index: 1000;
+left: 0;
+top: 0;
+width: 100%;
+height: 100%;
+background-color: rgba(0, 0, 0, 0.9);
+animation: fadeIn 0.3s;
+}
+
+.modal-content {
+margin: auto;
+display: block;
+max-width: 90%;
+max-height: 90%;
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+border-radius: 8px;
+border: 3px solid #00b4d8;
+box-shadow: 0 0 30px rgba(0, 180, 216, 0.5);
+}
+
+.close {
+position: absolute;
+top: 20px;
+right: 35px;
+color: #00b4d8;
+font-size: 40px;
+font-weight: bold;
+cursor: pointer;
+transition: color 0.3s ease;
+z-index: 1001;
+}
+
+.close:hover {
+color: #ffffff;
+}
+
+@keyframes fadeIn {
+from { opacity: 0; }
+to { opacity: 1; }
+}
+
+/* Style untuk hasil total credit IDR */
+.hasil-credit-container {
+background: rgba(30, 30, 30, 0.9);
+border: 1px solid #2e2e2e;
+border-radius: 6px;
+padding: 12px;
+margin-top: 10px;
+}
+
+.hasil-credit-item {
+display: flex;
+justify-content: space-between;
+margin-bottom: 8px;
+padding-bottom: 8px;
+border-bottom: 1px solid #2e2e2e;
+}
+
+.hasil-credit-item:last-child {
+margin-bottom: 0;
+padding-bottom: 0;
+border-bottom: none;
+}
+
+.hasil-credit-label {
+color: #00b4d8;
+font-weight: bold;
+}
+
+.hasil-credit-nilai {
+color: #e0f7ff;
+}
+
+/* Scrollbar untuk detail nominal */
+.hasil-perhitungan::-webkit-scrollbar {
+width: 6px;
+}
+
+.hasil-perhitungan::-webkit-scrollbar-track {
+background: rgba(30, 30, 30, 0.9);
+border-radius: 3px;
+}
+
+.hasil-perhitungan::-webkit-scrollbar-thumb {
+background: #00b4d8;
+border-radius: 3px;
+}
+
+.hasil-perhitungan::-webkit-scrollbar-thumb:hover {
+background: #007b9e;
+}
+
+/* Style untuk status */
+.status-proses {
+color: #00ff88;
+font-weight: bold;
+font-size: 16px;
+}
+
+.status-tidak-proses {
+color: #ff6b6b;
+font-weight: bold;
+font-size: 16px;
+}
+
+/* Style untuk item status (FIX untuk mencegah duplikasi) */
+.status-item {
+border-top: 2px solid #2e2e2e !important;
+margin-top: 10px !important;
+padding-top: 12px !important;
+}
+
+/* PERBAIKAN: Style untuk tombol copy hasil penjumlahan */
+.copy-hasil-btn {
+background: rgba(0, 180, 216, 0.2);
+border: 1px solid #00b4d8;
+border-radius: 6px;
+color: #00b4d8;
+cursor: pointer;
+padding: 6px 12px;
+font-size: 12px;
+margin-top: 8px;
+transition: all 0.3s ease;
+}
+
+.copy-hasil-btn:hover {
+background: rgba(0, 180, 216, 0.4);
+border-color: #00b4d8;
+color: #ffffff;
+}
+
+/* NEW: Style untuk Event Input Row */
+.event-input-row {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 12px;
+margin-bottom: 12px;
+}
+
+/* NEW: Style untuk Total Credit Display */
+.total-credit-display {
+background: rgba(30, 30, 30, 0.9);
+border: 1px solid #2e2e2e;
+border-radius: 6px;
+padding: 12px;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+text-align: center;
+height: 180px; /* DIPERBESAR dari 130px */
+box-sizing: border-box;
+}
+
+.total-credit-label {
+color: #00b4d8;
+font-size: 14px;
+font-weight: bold;
+margin-bottom: 5px;
+}
+
+.total-credit-value {
+color: #e0f7ff;
+font-size: 20px;
+font-weight: bold;
+}
+
+/* NEW: Style khusus untuk textarea di menu event */
+.event-seamless-input {
+height: 180px; /* DIPERBESAR dari 130px */
+}
+</style>
 </head>
 <body>
 
+<!-- Modal untuk preview gambar besar -->
+<div id="imageModal" class="modal">
+<span class="close" onclick="closeModal()">&times;</span>
+<img class="modal-content" id="modalImage">
+</div>
+
+<!-- Canvas untuk menggabungkan gambar (hidden) -->
+<canvas id="mergeCanvas"></canvas>
+
 <div class="main-container">
-  <div class="center-section">
-    <div class="input-container">
-      <!-- JUDUL BARU DI TENGAH -->
-      <div class="title-container">
-        <div class="main-title">Scatter Mahjong Ways</div>
-        <div class="sub-title">Event Scatter Mahjong Ways I & II</div>
-      </div>
+<div class="center-section">
+<div class="input-container">
+<!-- JUDUL UTAMA DI TENGAH -->
+<div class="title-container">
+<div class="main-title">Scatter Mahjong Ways</div>
+<div class="sub-title">Event Scatter Mahjong Ways I & II</div>
+</div>
 
-      <div class="section-title">INPUT DATA DARI DOCS SCATTER</div>
+<!-- Menu Scatter Mahjong -->
+<div class="menu-container">
+<div class="scatter-buttons">
+<button class="scatter-btn active" onclick="selectScatter('scatterMahjong')">SCATTER MAHJONG</button>
+<button class="scatter-btn" onclick="selectScatter('perhitungan')">PERHITUNGAN SCATTER</button>
+<button class="scatter-btn" onclick="selectScatter('event')">EVENT BUYSPIN / FREESPIN</button>
+</div>
+</div>
 
-      <textarea id="inputData" placeholder="Tempel data di sini sormin jangan kau rusak..."></textarea>
-      <button class="clear-btn" onclick="resetSemua()">🗑 Hapus</button>
+<!-- Container untuk Perhitungan Scatter -->
+<div class="perhitungan-container" id="perhitunganContainer">
+<div class="perhitungan-title">PERHITUNGAN SCATTER</div>
 
-      <div id="outputContainer">
-        <div class="data-box">
-          <span class="label">User ID :</span>
-          <span class="value" id="userId">
-            <span class="value-content">
-              <span class="empty-value">-</span>
-            </span>
-          </span>
-          <button class="copy-btn" onclick="copyUserId()" tabindex="1">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-              <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 
-                       2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
-            </svg>
-          </button>
-        </div>
+<!-- PERBAIKAN: Kemenangan Naga dan Saldo Kanan bersebelahan -->
+<div class="input-row-container">
+<!-- Input Kemenangan Naga -->
+<div class="input-kemenangan-container">
+<div class="input-kemenangan-title">KEMENANGAN NAGA</div>
+<div class="kemenangan-input-group">
+<input type="text" class="kemenangan-input" id="inputKemenanganNaga" placeholder="Contoh: 120,000" oninput="formatKemenanganInput(this)">
+</div>
+</div>
 
-        <div class="data-box">
-          <span class="label">Kode Tiket :</span>
-          <span class="value" id="kodeTiket">
-            <span class="value-content">
-              <span class="empty-value">-</span>
-            </span>
-          </span>
-          <button class="copy-btn" onclick="copyKodeTiket()" tabindex="2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-              <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 
-                       2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
-            </svg>
-          </button>
-        </div>
+<!-- Input Saldo Kanan -->
+<div class="saldo-kanan-container">
+<div class="saldo-kanan-title">SALDO KANAN</div>
+<div class="saldo-kanan-input-group">
+<input type="text" class="saldo-kanan-input" id="inputSaldoKanan" placeholder="Contoh: 150,000" oninput="formatSaldoKanan(this)">
+</div>
+</div>
+</div>
 
-        <div class="data-box">
-          <span class="label">Link Bukti :</span>
-          <div class="value" id="linkBukti">
-            <span class="value-content">
-              <span class="empty-value">-</span>
-            </span>
-          </div>
-          <button class="copy-btn" onclick="copyLinkBukti()" tabindex="3">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-              <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 
-                       2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
-            </svg>
-          </button>
-        </div>
+<div class="saldo-kanan-info">Kosongkan saldo kanan jika tidak ada (akan dianggap 0)</div>
 
-        <div class="data-box">
-          <span class="label">Bettingan :</span>
-          <span class="value" id="bettingan">
-            <span class="value-content">
-              <span class="empty-value">-</span>
-            </span>
-          </span>
-          <button class="copy-btn" onclick="copyBettingan()" tabindex="4">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-              <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 
-                       2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
+<!-- RUMUS PERHITUNGAN -->
+<div class="contoh-gambar-container">
+<div class="contoh-gambar-title">RUMUS PERHITUNGAN</div>
+<div class="hasil-perhitungan" style="margin-top: 0;">
+<div class="hasil-item">
+<span class="hasil-label">Kemenangan Naga:</span>
+<span class="hasil-nilai" id="displayKemenanganNaga">IDR 0</span>
+</div>
+<div class="hasil-item">
+<span class="hasil-label">Saldo Kanan:</span>
+<span class="hasil-nilai" id="displaySaldoKanan">IDR 0</span>
+</div>
+<div class="hasil-item">
+<span class="hasil-label">Hasil:</span>
+<span class="hasil-nilai cocok" id="displayHasilPerhitungan">IDR 0</span>
+</div>
+</div>
+</div>
 
-  <!-- Preview gambar di samping kanan -->
-  <div class="preview-section">
-    <div class="section-title">PREVIEW GAMBAR BUKTI</div>
-    <div id="imagesGrid" class="images-grid">
-      <div class="no-preview">Belum ada data untuk ditampilkan</div>
-    </div>
-  </div>
+<!-- REVISI: Contoh Gambar Gabungan -->
+<div class="contoh-gambar-container">
+<div class="contoh-gambar-title">CONTOH GAMBAR (GABUNGAN)</div>
+<div class="contoh-gambar-item">
+<div class="image-placeholder" id="placeholderGabungan">Belum ada gambar</div>
+<img src="" alt="Contoh Gambar Gabungan" class="contoh-gambar" id="contohGambarGabungan" onclick="tampilkanGambarGabungan()" style="display: none;">
+<div class="contoh-gambar-label">Klik untuk melihat gambar gabungan</div>
+</div>
+</div>
+
+<!-- Container untuk Penjumlahan Credit IDR -->
+<div class="contoh-gambar-container">
+<div class="contoh-gambar-title">PENJUMLAHAN CREDIT IDR</div>
+<textarea class="seamless-input" id="seamlessDataForSum" placeholder="Tempel data seamless di sini..."></textarea>
+</div>
+
+<!-- Container untuk Hasil Penjumlahan Credit IDR -->
+<div class="hasil-perhitungan" id="hasilTotalCreditIDR" style="display: none;">
+<div class="perhitungan-title">HASIL PENJUMLAHAN CREDIT IDR</div>
+<div id="detailTotalCreditIDR"></div>
+</div>
+</div>
+
+<!-- Container untuk Event BuySpin / FreeSpin -->
+<div class="perhitungan-container" id="eventContainer">
+<div class="perhitungan-title">EVENT BUYSPIN / FREESPIN</div>
+
+<!-- Container untuk Penjumlahan Credit IDR di Event -->
+<div class="contoh-gambar-container">
+<div class="contoh-gambar-title">PENJUMLAHAN CREDIT IDR</div>
+<!-- NEW: Input Row with Total Credit Display -->
+<div class="event-input-row">
+<textarea class="seamless-input event-seamless-input" id="eventDataForSum" placeholder="Tempel data seamless event di sini..."></textarea>
+<div class="total-credit-display" id="totalCreditDisplayEvent">
+<div class="total-credit-label">Total Credit</div>
+<div class="total-credit-value" id="totalCreditValueEvent">IDR 0</div>
+</div>
+</div>
+</div>
+
+<!-- Container untuk Hasil Penjumlahan Credit IDR di Event - DISEMBUNYIKAN -->
+<!-- Bagian ini disembunyikan karena total sudah ditampilkan di kolom sebelahnya -->
+<div class="hasil-perhitungan" id="hasilTotalCreditIDREvent" style="display: none;">
+<div class="perhitungan-title">HASIL PENJUMLAHAN CREDIT IDR</div>
+<div id="detailTotalCreditIDREvent"></div>
+</div>
+</div>
+
+<!-- Container untuk DATA SCATTER (hanya muncul di Scatter Mahjong) -->
+<div class="data-scatter-container" id="dataScatterContainer">
+<!-- Header dengan judul dan toggle switch TS -->
+<div class="section-header">
+<div class="section-title">INPUT DATA DARI DOCS SCATTER</div>
+<div class="ts-toggle-container">
+<span class="ts-toggle-label">TS:</span>
+<label class="ts-toggle">
+<input type="checkbox" id="tsToggle" onchange="toggleTS()">
+<span class="ts-slider"></span>
+</label>
+</div>
+</div>
+
+<textarea id="inputData" placeholder="Tempel data di sini sormin jangan kau rusak..."></textarea>
+<button class="clear-btn" onclick="resetSemua()">🗑 Hapus</button>
+
+<!-- Judul DATA SCATTER di atas kolom data -->
+<div class="data-scatter-title">DATA SCATTER</div>
+
+<div id="outputContainer">
+<div class="data-box">
+<span class="label">User ID :</span>
+<span class="value" id="userId">
+<span class="value-content">
+<span class="empty-value">-</span>
+</span>
+<span class="ts-badge" id="tsBadge"> TS</span>
+</span>
+<button class="copy-btn" id="copyUserIdBtn" onclick="copyUserId()" tabindex="1">
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+<path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2
+2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+</svg>
+</button>
+</div>
+
+<div class="data-box">
+<span class="label">Kode Tiket :</span>
+<span class="value" id="kodeTiket">
+<span class="value-content">
+<span class="empty-value">-</span>
+</span>
+</span>
+<button class="copy-btn" id="copyKodeTiketBtn" onclick="copyKodeTiket()" tabindex="2">
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+<path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2
+2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+</svg>
+</button>
+</div>
+
+<div class="data-box">
+<span class="label">Link Bukti :</span>
+<div class="value" id="linkBukti">
+<span class="value-content">
+<span class="empty-value">-</span>
+</span>
+</div>
+<button class="copy-btn" id="copyLinkBuktiBtn" onclick="copyLinkBukti()" tabindex="3">
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+<path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2
+2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+</svg>
+</button>
+</div>
+
+<div class="data-box">
+<span class="label">Bettingan :</span>
+<span class="value" id="bettingan">
+<span class="value-content">
+<span class="empty-value">-</span>
+</span>
+</span>
+<button class="copy-btn" id="copyBettinganBtn" onclick="copyBettingan()" tabindex="4">
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+<path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2
+2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+</svg>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Preview gambar di samping kanan (hanya muncul di Scatter Mahjong) -->
+<div class="preview-section preview-container" id="previewContainer">
+<div class="section-title">PREVIEW GAMBAR BUKTI</div>
+<div id="imagesGrid" class="images-grid">
+<div class="no-preview">Belum ada data untuk ditampilkan</div>
+</div>
+</div>
 </div>
 
 <script>
+// Variabel global untuk status TS
+let isTSActive = false;
+let selectedScatter = 'scatterMahjong';
+let gambarPertamaUrl = '';
+let gambarKeduaUrl = '';
+let gambarKetigaUrl = '';
+let gambarGabunganUrl = '';
+
 const inputField = document.getElementById("inputData");
 inputField.addEventListener("input", prosesData);
 
+// =============================================
+// FUNGSI BARU: PENJUMLAHAN CREDIT IDR (OTOMATIS) + SHORTCUT PERHITUNGAN
+// =============================================
+
+// Event listener untuk input data seamless (otomatis menghitung)
+document.getElementById('seamlessDataForSum').addEventListener('input', function() {
+hitungTotalCreditIDROtomatis();
+});
+
+// Event listener untuk input data event (otomatis menghitung)
+document.getElementById('eventDataForSum').addEventListener('input', function() {
+hitungTotalCreditIDROtomatisEvent();
+});
+
+// Event listener untuk input kemenangan naga dan saldo kanan (otomatis membandingkan)
+document.getElementById('inputKemenanganNaga').addEventListener('input', function() {
+updateDisplayRumus();
+bandingkanCreditDenganKemenangan();
+});
+
+document.getElementById('inputSaldoKanan').addEventListener('input', function() {
+updateDisplayRumus();
+bandingkanCreditDenganKemenangan();
+});
+
+// Fungsi untuk update display rumus perhitungan
+function updateDisplayRumus() {
+const kemenanganInput = document.getElementById('inputKemenanganNaga').value.trim();
+const saldoKananInput = document.getElementById('inputSaldoKanan').value.trim();
+
+// Konversi ke angka
+const kemenanganNaga = kemenanganInput ? parseFloat(kemenanganInput.replace(/,/g, '')) : 0;
+const saldoKanan = saldoKananInput ? parseFloat(saldoKananInput.replace(/,/g, '')) : 0;
+
+// PERUBAHAN: Hitung hasil dengan PENAMBAHAN (+)
+const hasil = kemenanganNaga + saldoKanan;
+
+// Update display
+document.getElementById('displayKemenanganNaga').textContent = formatNominalIDR(kemenanganNaga);
+document.getElementById('displaySaldoKanan').textContent = formatNominalIDR(saldoKanan);
+document.getElementById('displayHasilPerhitungan').textContent = formatNominalIDR(hasil);
+}
+
+// Fungsi untuk menghitung total nominal IDR yang ada di bawah kata Credit (OTOMATIS)
+function hitungTotalCreditIDROtomatis() {
+const seamlessData = document.getElementById('seamlessDataForSum').value.trim();
+const hasilContainer = document.getElementById('hasilTotalCreditIDR');
+const detailContainer = document.getElementById('detailTotalCreditIDR');
+
+if (!seamlessData) {
+hasilContainer.style.display = 'none';
+return;
+}
+
+// Ekstrak hanya nominal Credit IDR
+const hasilPenjumlahan = ekstrakDanJumlahkanCreditIDR(seamlessData);
+
+// Tampilkan hasil
+tampilkanHasilTotalCreditIDR(hasilPenjumlahan, detailContainer);
+hasilContainer.style.display = 'block';
+
+// Otomatis bandingkan dengan kemenangan naga dan saldo kanan
+bandingkanCreditDenganKemenangan();
+}
+
+// FUNGSI BARU: Hitung total Credit IDR untuk Event
+function hitungTotalCreditIDROtomatisEvent() {
+const eventData = document.getElementById('eventDataForSum').value.trim();
+    // Bagian hasil detail sudah tidak diperlukan lagi
+    // const hasilContainer = document.getElementById('hasilTotalCreditIDREvent');
+    // const detailContainer = document.getElementById('detailTotalCreditIDREvent');
+    const totalCreditValueElement = document.getElementById('totalCreditValueEvent');
+
+    if (!eventData) {
+        // hasilContainer.style.display = 'none'; // Tidak perlu lagi
+        totalCreditValueElement.textContent = 'IDR 0';
+        return;
+    }
+
+    // Ekstrak hanya nominal Credit IDR
+    const hasilPenjumlahan = ekstrakDanJumlahkanCreditIDR(eventData);
+
+    // Update Total Credit Display
+    totalCreditValueElement.textContent = formatNominalIDR(hasilPenjumlahan.total);
+
+    // Tampilkan hasil detail tidak lagi diperlukan
+    // tampilkanHasilTotalCreditIDR(hasilPenjumlahan, detailContainer);
+    // hasilContainer.style.display = 'block';
+}
+
+// PERBAIKAN: Kembalikan fungsi parsing ke versi yang lebih sederhana namun akurat
+function parseIDRValue(text) {
+// Hapus semua karakter non-digit
+let cleanText = text.replace(/[^\d]/g, '');
+
+// Konversi ke angka
+const value = parseFloat(cleanText);
+return isNaN(value) ? 0 : value;
+}
+
+// PERBAIKAN: Kembalikan fungsi ekstrak dan jumlahkan Credit IDR ke versi sebelumnya
+function ekstrakDanJumlahkanCreditIDR(data) {
+const lines = data.split('\n');
+const creditNominal = [];
+let total = 0;
+
+for (let i = 0; i < lines.length; i++) {
+const line = lines[i].trim();
+
+// Cari baris yang mengandung kata "Credit" (case insensitive)
+if (line.toUpperCase().includes('CREDIT') && !line.toUpperCase().includes('BALANCE')) {
+// Cek baris berikutnya untuk nominal IDR
+if (i + 1 < lines.length) {
+const nextLine = lines[i + 1].trim();
+const pattern = /IDR\s*([\d,]+(?:\.\d{2})?)/i;
+const match = nextLine.match(pattern);
+
+if (match) {
+const nominalText = match[1];
+// Konversi ke angka (hapus koma sebagai pemisah ribuan)
+const nominal = parseFloat(nominalText.replace(/[.,]/g, ''));
+
+if (!isNaN(nominal) && nominal > 0) {
+creditNominal.push({
+nominal: nominal,
+formatted: formatNominalIDR(nominal)
+});
+total += nominal;
+}
+}
+}
+}
+}
+
+return {
+total: total,
+jumlahData: creditNominal.length
+};
+}
+
+// Fungsi untuk format nominal IDR (DIPERBAIKI)
+function formatNominalIDR(nominal) {
+return 'IDR ' + nominal.toLocaleString('id-ID');
+}
+
+// Fungsi untuk menampilkan hasil penjumlahan Credit IDR (SEDERHANA)
+function tampilkanHasilTotalCreditIDR(hasil, container) {
+let html = '';
+
+if (hasil.jumlahData === 0) {
+html = '<div style="text-align: center; color: #ff6b6b;">Tidak ditemukan Credit IDR dalam data!</div>';
+} else {
+// Tampilkan total saja
+html += `
+<div class="hasil-item">
+<span class="hasil-label">Total Credit:</span>
+<span class="hasil-nilai cocok" style="font-size: 18px; font-weight: bold;">
+ ${formatNominalIDR(hasil.total)}
+</span>
+</div>
+<div class="hasil-item">
+<span class="hasil-label">Jumlah Data:</span>
+<span class="hasil-nilai">${hasil.jumlahData} transaksi</span>
+</div>
+<div style="text-align: center; margin-top: 10px;">
+<button class="copy-hasil-btn" onclick="copyHasilCredit('${formatNominalIDR(hasil.total)}')">Copy Total Credit</button>
+</div>
+`;
+}
+
+container.innerHTML = html;
+}
+
+// Fungsi untuk menyalin hasil total credit
+function copyHasilCredit(text) {
+navigator.clipboard.writeText(text).then(() => {
+// Tampilkan notifikasi sukses
+const notification = document.createElement('div');
+notification.style.position = 'fixed';
+notification.style.bottom = '20px';
+notification.style.right = '20px';
+notification.style.background = 'rgba(0, 255, 136, 0.8)';
+notification.style.color = '#121212';
+notification.style.padding = '10px 15px';
+notification.style.borderRadius = '5px';
+notification.style.fontWeight = 'bold';
+notification.style.zIndex = '1000';
+notification.textContent = 'Total Credit berhasil disalin!';
+document.body.appendChild(notification);
+    
+// Hapus notifikasi setelah 2 detik
+setTimeout(() => {
+document.body.removeChild(notification);
+}, 2000);
+}).catch(err => {
+console.error('Gagal menyalin teks: ', err);
+});
+}
+
+// PERBAIKAN: Bandingkan Credit IDR dengan (Kemenangan Naga + Saldo Kanan)
+function bandingkanCreditDenganKemenangan() {
+const kemenanganInput = document.getElementById('inputKemenanganNaga').value.trim();
+const saldoKananInput = document.getElementById('inputSaldoKanan').value.trim();
+const hasilContainer = document.getElementById('hasilTotalCreditIDR');
+const detailContainer = document.getElementById('detailTotalCreditIDR');
+
+// Cek jika semua data sudah terisi
+if (!kemenanganInput || !hasilContainer.style.display || hasilContainer.style.display === 'none') {
+return;
+}
+
+// Ambil total Credit IDR dari hasil perhitungan
+const totalCreditElement = detailContainer.querySelector('.hasil-nilai');
+if (!totalCreditElement) return;
+
+const totalCreditText = totalCreditElement.textContent.trim();
+const totalCredit = parseIDRValue(totalCreditText);
+
+if (totalCredit === 0) return;
+
+// Konversi kemenangan naga dan saldo kanan ke angka
+const kemenanganNaga = parseFloat(kemenanganInput.replace(/,/g, ''));
+const saldoKanan = saldoKananInput ? parseFloat(saldoKananInput.replace(/,/g, '')) : 0;
+
+if (kemenanganNaga === 0) return;
+
+// Hitung total kemenangan
+const totalKemenangan = kemenanganNaga + saldoKanan;
+
+// Gunakan toleransi yang lebih sesuai untuk nilai besar
+const toleransiFixed = 100; // Toleransi fixed 100 IDR
+const toleransiPersen = totalKemenangan * 0.001; // 0.1%
+const toleransi = Math.max(toleransiFixed, toleransiPersen);
+
+const selisih = Math.abs(totalCredit - totalKemenangan);
+const isCocok = selisih <= toleransi;
+
+// PERBAIKAN UTAMA: Hapus SEMUA hasil perbandingan sebelumnya dengan selector yang lebih spesifik
+const allComparisonElements = detailContainer.querySelectorAll('.hasil-item');
+// Mulai dari index 1 karena index 0 adalah "Total Credit" yang tidak boleh dihapus
+for (let i = 1; i < allComparisonElements.length; i++) {
+allComparisonElements[i].remove();
+}
+
+// Tampilkan status berdasarkan hasil perbandingan
+let statusHTML = '';
+if (isCocok) {
+statusHTML = `
+<div class="hasil-item status-item">
+<span class="hasil-label">Status:</span>
+<span class="status-proses">
+✓ PROSES - DATA COCOK
+</span>
+</div>
+`;
+} else {
+statusHTML = `
+<div class="hasil-item status-item">
+<span class="hasil-label">Status:</span>
+<span class="status-tidak-proses">
+✗ JANGAN PROSES - DATA TIDAK COCOK
+</span>
+</div>
+<div class="hasil-item status-item">
+<span class="hasil-label">Selisih:</span>
+<span class="hasil-nilai" style="color: #ff6b6b;">${formatNominalIDR(selisih)}</span>
+</div>
+<div class="hasil-item status-item">
+<span class="hasil-label">Detail:</span>
+<span class="hasil-nilai" style="font-size: 12px;">
+Credit: ${formatNominalIDR(totalCredit)} | Total: ${formatNominalIDR(totalKemenangan)}
+</span>
+</div>
+`;
+}
+
+// Tambahkan status ke container
+detailContainer.insertAdjacentHTML('beforeend', statusHTML);
+}
+
+// =============================================
+// FUNGSI UNTUK MENGGABUNGKAN GAMBAR
+// =============================================
+
+// Fungsi untuk menggabungkan 3 gambar menjadi satu
+function gabungkanGambar(urls, callback) {
+if (!urls || urls.length === 0) {
+callback(null);
+return;
+}
+
+const canvas = document.getElementById('mergeCanvas');
+const ctx = canvas.getContext('2d');
+
+// Ukuran canvas untuk 3 gambar horizontal
+const canvasWidth = 900;  // 300px per gambar
+const canvasHeight = 200; // 200px tinggi
+
+canvas.width = canvasWidth;
+canvas.height = canvasHeight;
+
+let loadedImages = 0;
+const images = [];
+
+// Load semua gambar
+urls.forEach((url, index) => {
+const img = new Image();
+img.crossOrigin = 'anonymous'; // Untuk menghindari CORS error
+
+img.onload = function() {
+images[index] = img;
+loadedImages++;
+
+// Jika semua gambar sudah di-load, gabungkan
+if (loadedImages === urls.length) {
+// Bersihkan canvas
+ctx.fillStyle = '#1a1a1a';
+ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+// Gambar setiap gambar di canvas
+const gambarWidth = canvasWidth / urls.length;
+const gambarHeight = canvasHeight;
+
+images.forEach((image, idx) => {
+const x = idx * gambarWidth;
+
+// Hitung scaling untuk memastikan gambar muat
+const scale = Math.min(
+gambarWidth / image.width,
+gambarHeight / image.height
+);
+
+const scaledWidth = image.width * scale;
+const scaledHeight = image.height * scale;
+
+// Center gambar di slotnya
+const xPos = x + (gambarWidth - scaledWidth) / 2;
+const yPos = (gambarHeight - scaledHeight) / 2;
+
+ctx.drawImage(image, xPos, yPos, scaledWidth, scaledHeight);
+
+// Tambahkan border antar gambar
+if (idx < urls.length - 1) {
+ctx.strokeStyle = '#00b4d8';
+ctx.lineWidth = 2;
+ctx.beginPath();
+ctx.moveTo((idx + 1) * gambarWidth, 0);
+ctx.lineTo((idx + 1) * gambarWidth, canvasHeight);
+ctx.stroke();
+}
+});
+
+// Tambahkan label untuk setiap gambar
+ctx.fillStyle = '#00b4d8';
+ctx.font = 'bold 14px Arial';
+ctx.textAlign = 'center';
+
+urls.forEach((url, idx) => {
+const x = idx * gambarWidth + gambarWidth / 2;
+ctx.fillText(`Gambar ${idx + 1}`, x, canvasHeight - 10);
+});
+
+// Konversi canvas ke data URL
+canvas.toBlob(function(blob) {
+const url = URL.createObjectURL(blob);
+callback(url);
+}, 'image/jpeg', 0.9);
+}
+};
+
+img.onerror = function() {
+console.error(`Gagal memuat gambar ${index + 1}: ${url}`);
+loadedImages++;
+
+// Jika semua gambar sudah di-load (meskipun ada yang gagal)
+if (loadedImages === urls.length) {
+// Coba gabungkan dengan gambar yang berhasil di-load
+if (images.length > 0) {
+// Ulangi proses penggabungan dengan gambar yang ada
+ctx.fillStyle = '#1a1a1a';
+ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+const gambarWidth = canvasWidth / images.length;
+const gambarHeight = canvasHeight;
+
+images.forEach((image, idx) => {
+const x = idx * gambarWidth;
+
+const scale = Math.min(
+gambarWidth / image.width,
+gambarHeight / image.height
+);
+
+const scaledWidth = image.width * scale;
+const scaledHeight = image.height * scale;
+
+const xPos = x + (gambarWidth - scaledWidth) / 2;
+const yPos = (gambarHeight - scaledHeight) / 2;
+
+ctx.drawImage(image, xPos, yPos, scaledWidth, scaledHeight);
+
+if (idx < images.length - 1) {
+ctx.strokeStyle = '#00b4d8';
+ctx.lineWidth = 2;
+ctx.beginPath();
+ctx.moveTo((idx + 1) * gambarWidth, 0);
+ctx.lineTo((idx + 1) * gambarWidth, canvasHeight);
+ctx.stroke();
+}
+});
+
+ctx.fillStyle = '#00b4d8';
+ctx.font = 'bold 14px Arial';
+ctx.textAlign = 'center';
+
+images.forEach((image, idx) => {
+const x = idx * gambarWidth + gambarWidth / 2;
+ctx.fillText(`Gambar ${idx + 1}`, x, canvasHeight - 10);
+});
+
+canvas.toBlob(function(blob) {
+const url = URL.createObjectURL(blob);
+callback(url);
+}, 'image/jpeg', 0.9);
+} else {
+callback(null);
+}
+}
+};
+
+img.src = url;
+});
+}
+
+// =============================================
+// FUNGSI YANG SUDAH ADA
+// =============================================
+
+// Fungsi untuk memilih scatter
+function selectScatter(scatterType) {
+// Hapus class active dari semua button
+const buttons = document.querySelectorAll('.scatter-btn');
+buttons.forEach(btn => btn.classList.remove('active'));
+
+// Tambah class active ke button yang diklik
+const clickedButton = event.target;
+clickedButton.classList.add('active');
+
+selectedScatter = scatterType;
+
+// Tampilkan/sembunyikan container berdasarkan pilihan menu
+const perhitunganContainer = document.getElementById('perhitunganContainer');
+const eventContainer = document.getElementById('eventContainer');
+const dataScatterContainer = document.getElementById('dataScatterContainer');
+const previewContainer = document.getElementById('previewContainer');
+
+if (scatterType === 'scatterMahjong') {
+perhitunganContainer.style.display = 'none';
+eventContainer.style.display = 'none';
+dataScatterContainer.style.display = 'block';
+previewContainer.style.display = 'block';
+} else if (scatterType === 'perhitungan') {
+perhitunganContainer.style.display = 'block';
+eventContainer.style.display = 'none';
+dataScatterContainer.style.display = 'none';
+previewContainer.style.display = 'none';
+
+// Update contoh gambar gabungan saat masuk ke menu perhitungan
+updateContohGambarGabungan();
+
+// Update display rumus
+updateDisplayRumus();
+} else if (scatterType === 'event') {
+perhitunganContainer.style.display = 'none';
+eventContainer.style.display = 'block';
+dataScatterContainer.style.display = 'none';
+previewContainer.style.display = 'none';
+}
+}
+
+// Fungsi untuk update contoh gambar gabungan
+function updateContohGambarGabungan() {
+const contohGambar = document.getElementById('contohGambarGabungan');
+const placeholder = document.getElementById('placeholderGabungan');
+
+// Kumpulkan URL gambar yang tersedia
+const gambarUrls = [];
+if (gambarPertamaUrl) gambarUrls.push(gambarPertamaUrl);
+if (gambarKeduaUrl) gambarUrls.push(gambarKeduaUrl);
+if (gambarKetigaUrl) gambarUrls.push(gambarKetigaUrl);
+
+if (gambarUrls.length > 0) {
+// Tampilkan loading
+placeholder.textContent = 'Menggabungkan gambar...';
+placeholder.style.display = 'flex';
+contohGambar.style.display = 'none';
+
+// Gabungkan gambar
+gabungkanGambar(gambarUrls, function(gabunganUrl) {
+if (gabunganUrl) {
+// Hapus URL lama jika ada
+if (gambarGabunganUrl) {
+URL.revokeObjectURL(gambarGabunganUrl);
+}
+
+gambarGabunganUrl = gabunganUrl;
+contohGambar.src = gambarGabunganUrl;
+contohGambar.style.display = 'block';
+placeholder.style.display = 'none';
+} else {
+placeholder.textContent = 'Gagal menggabungkan gambar';
+placeholder.style.display = 'flex';
+contohGambar.style.display = 'none';
+}
+});
+} else {
+contohGambar.style.display = 'none';
+placeholder.style.display = 'flex';
+placeholder.textContent = 'Belum ada gambar';
+}
+}
+
+// Fungsi untuk menampilkan gambar gabungan di modal
+function tampilkanGambarGabungan() {
+if (gambarGabunganUrl) {
+const modal = document.getElementById('imageModal');
+const modalImg = document.getElementById('modalImage');
+
+modal.style.display = 'block';
+modalImg.src = gambarGabunganUrl;
+
+// Tambah event listener untuk menutup modal dengan ESC
+document.addEventListener('keydown', closeModalOnEsc);
+} else {
+alert('Belum ada gambar gabungan yang tersedia. Silakan input data terlebih dahulu di menu SCATTER MAHJONG.');
+}
+}
+
+// Fungsi untuk menutup modal
+function closeModal() {
+const modal = document.getElementById('imageModal');
+modal.style.display = 'none';
+document.removeEventListener('keydown', closeModalOnEsc);
+}
+
+// Fungsi untuk menutup modal dengan tombol ESC
+function closeModalOnEsc(event) {
+if (event.key === 'Escape') {
+closeModal();
+}
+}
+
+// Tutup modal ketika klik di luar gambar
+window.onclick = function(event) {
+const modal = document.getElementById('imageModal');
+if (event.target === modal) {
+closeModal();
+}
+}
+
+// PERBAIKAN: Format input kemenangan naga
+function formatKemenanganInput(input) {
+let value = input.value.replace(/[^\d]/g, '');
+
+if (value.length > 3) {
+value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+input.value = value;
+}
+
+// PERBAIKAN: Format input saldo kanan
+function formatSaldoKanan(input) {
+let value = input.value.replace(/[^\d]/g, '');
+
+if (value.length > 3) {
+value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+input.value = value;
+}
+
+// Fungsi toggle TS
+function toggleTS() {
+const tsToggle = document.getElementById('tsToggle');
+const tsBadge = document.getElementById('tsBadge');
+
+isTSActive = tsToggle.checked;
+
+if (isTSActive) {
+tsBadge.style.display = 'inline';
+// Perbarui tampilan User ID jika ada data
+updateUserIdWithTS();
+} else {
+tsBadge.style.display = 'none';
+// Kembalikan User ID ke state normal
+updateUserIdDisplay();
+}
+}
+
+// Fungsi untuk update User ID dengan TS
+function updateUserIdWithTS() {
+const userIdElement = document.getElementById('userId');
+const valueContent = userIdElement.querySelector('.value-content');
+const emptyValue = userIdElement.querySelector('.empty-value');
+const currentContent = valueContent.textContent || emptyValue.textContent;
+
+if (currentContent !== '-' && isTSActive) {
+// Hapus "TS" jika sudah ada untuk menghindari duplikasi
+const cleanContent = currentContent.replace(' TS', '');
+valueContent.innerHTML = cleanContent;
+}
+}
+
+// Fungsi untuk update tampilan User ID
+function updateUserIdDisplay() {
+const userIdElement = document.getElementById('userId');
+const valueContent = userIdElement.querySelector('.value-content');
+const currentText = valueContent.textContent;
+
+if (currentText && currentText !== '-') {
+// Hapus "TS" jika ada
+const cleanText = currentText.replace(' TS', '');
+valueContent.innerHTML = cleanText;
+}
+}
+
+// Fungsi untuk navigasi ke tombol copy berikutnya
+function navigateToNextCopyButton(currentButtonId) {
+const buttonIds = ['copyUserIdBtn', 'copyKodeTiketBtn', 'copyLinkBuktiBtn', 'copyBettinganBtn'];
+const currentIndex = buttonIds.indexOf(currentButtonId);
+
+if (currentIndex !== -1 && currentIndex < buttonIds.length - 1) {
+const nextButtonId = buttonIds[currentIndex + 1];
+const nextButton = document.getElementById(nextButtonId);
+
+if (nextButton && !nextButton.classList.contains('copied')) {
+nextButton.focus();
+}
+}
+}
+
 // Fungsi copy untuk masing-masing kolom
 function copyUserId() {
-  const element = document.getElementById('userId');
-  copyTextFromElement(element);
+const element = document.getElementById('userId');
+let text = '';
+
+const valueContent = element.querySelector('.value-content');
+if (valueContent) {
+text = valueContent.textContent || valueContent.innerText;
+} else {
+text = element.textContent || element.innerText;
+}
+
+// Tambahkan "TS" jika aktif
+if (isTSActive && text !== '-') {
+text = text + ' TS';
+}
+
+text = text.trim();
+if (text === '-' || !text) {
+console.log("Tidak ada data untuk disalin");
+return;
+}
+
+navigator.clipboard.writeText(text).then(() => {
+console.log("User ID berhasil disalin:", text);
+showCopySuccess('copyUserIdBtn');
+navigateToNextCopyButton('copyUserIdBtn');
+}).catch(err => {
+console.error("Gagal menyalin User ID:", err);
+fallbackCopyTextToClipboard(text, 'copyUserIdBtn');
+});
 }
 
 function copyKodeTiket() {
-  const element = document.getElementById('kodeTiket');
-  copyTextFromElement(element);
+const element = document.getElementById('kodeTiket');
+copyTextFromElement(element, 'copyKodeTiketBtn');
 }
 
 function copyLinkBukti() {
-  const element = document.getElementById('linkBukti');
-  copyTextFromElement(element);
+const element = document.getElementById('linkBukti');
+copyTextFromElement(element, 'copyLinkBuktiBtn');
 }
 
 function copyBettingan() {
-  const element = document.getElementById('bettingan');
-  copyTextFromElement(element);
+const element = document.getElementById('bettingan');
+copyTextFromElement(element, 'copyBettinganBtn');
 }
 
 // Fungsi utama untuk copy teks
-function copyTextFromElement(element) {
-  let text = '';
-  
-  // Cek jika element memiliki value-content
-  const valueContent = element.querySelector('.value-content');
-  if (valueContent) {
-    // Untuk link bukti yang memiliki multiple links
-    if (element.id === 'linkBukti') {
-      const links = valueContent.querySelectorAll('a');
-      if (links.length > 0) {
-        text = Array.from(links).map(link => link.textContent).join('\n');
-      } else {
-        text = valueContent.textContent || valueContent.innerText;
-      }
-    } else {
-      // Untuk kolom lainnya
-      text = valueContent.textContent || valueContent.innerText;
-    }
-  } else {
-    // Fallback jika tidak ada value-content
-    text = element.textContent || element.innerText;
-  }
-  
-  // Bersihkan teks dan cek jika kosong
-  text = text.trim();
-  if (text === '-' || !text) {
-    console.log("Tidak ada data untuk disalin");
-    return;
-  }
-  
-  // Copy ke clipboard
-  navigator.clipboard.writeText(text).then(() => {
-    console.log("Teks berhasil disalin:", text);
-    showCopySuccess(element);
-  }).catch(err => {
-    console.error("Gagal menyalin teks:", err);
-    // Fallback untuk browser yang tidak support clipboard API
-    fallbackCopyTextToClipboard(text, element);
-  });
+function copyTextFromElement(element, buttonId) {
+let text = '';
+
+// Cek jika element memiliki value-content
+const valueContent = element.querySelector('.value-content');
+if (valueContent) {
+// Untuk link bukti yang memiliki multiple links
+if (element.id === 'linkBukti') {
+const links = valueContent.querySelectorAll('a');
+if (links.length > 0) {
+text = Array.from(links).map(link => link.textContent).join('\n');
+} else {
+text = valueContent.textContent || valueContent.innerText;
+}
+} else {
+// Untuk kolom lainnya
+text = valueContent.textContent || valueContent.innerText;
+}
+} else {
+// Fallback jika tidak ada value-content
+text = element.textContent || element.innerText;
+}
+
+// Bersihkan teks dan cek jika kosong
+text = text.trim();
+if (text === '-' || !text) {
+console.log("Tidak ada data untuk disalin");
+return;
+}
+
+// Copy ke clipboard
+navigator.clipboard.writeText(text).then(() => {
+console.log("Teks berhasil disalin:", text);
+showCopySuccess(buttonId);
+navigateToNextCopyButton(buttonId);
+}).catch(err => {
+console.error("Gagal menyalin teks:", err);
+// Fallback untuk browser yang tidak support clipboard API
+fallbackCopyTextToClipboard(text, buttonId);
+});
 }
 
 // Fallback copy method
-function fallbackCopyTextToClipboard(text, element) {
-  const textArea = document.createElement("textarea");
-  textArea.value = text;
-  textArea.style.position = "fixed";
-  textArea.style.left = "-999999px";
-  textArea.style.top = "-999999px";
-  document.body.appendChild(textArea);
-  textArea.focus();
-  textArea.select();
-  
-  try {
-    const successful = document.execCommand('copy');
-    if (successful) {
-      console.log("Teks berhasil disalin (fallback):", text);
-      showCopySuccess(element);
-    } else {
-      console.error("Gagal menyalin teks (fallback)");
-    }
-  } catch (err) {
-    console.error("Gagal menyalin teks (fallback):", err);
-  }
-  
-  document.body.removeChild(textArea);
+function fallbackCopyTextToClipboard(text, buttonId) {
+const textArea = document.createElement("textarea");
+textArea.value = text;
+textArea.style.position = "fixed";
+textArea.style.left = "-999999px";
+textArea.style.top = "-999999px";
+document.body.appendChild(textArea);
+textArea.focus();
+textArea.select();
+
+try {
+const successful = document.execCommand('copy');
+if (successful) {
+console.log("Teks berhasil disalin (fallback):", text);
+showCopySuccess(buttonId);
+navigateToNextCopyButton(buttonId);
+} else {
+console.error("Gagal menyalin teks (fallback)");
+}
+} catch (err) {
+console.error("Gagal menyalin teks (fallback):", err);
 }
 
-// Tampilkan feedback copy berhasil
-function showCopySuccess(element) {
-  const button = element.closest('.data-box').querySelector('.copy-btn');
-  if (button) {
-    const originalSvg = button.innerHTML;
-    const originalColor = button.querySelector('svg').style.fill;
-    
-    // Ganti dengan centang
-    button.innerHTML = '<span style="color: #00ff88; font-size: 18px; font-weight: bold;">✓</span>';
-    
-    // Kembalikan setelah 1.5 detik
-    setTimeout(() => {
-      button.innerHTML = originalSvg;
-    }, 1500);
-  }
+document.body.removeChild(textArea);
+}
+
+// Tampilkan feedback copy berhasil - TIDAK KEMBALI KE TAMPILAN AWAL
+function showCopySuccess(buttonId) {
+const button = document.getElementById(buttonId);
+if (button) {
+// Tambah class 'copied' untuk mengubah tampilan tombol secara permanen
+button.classList.add('copied');
+
+// Hapus event listener agar tidak bisa diklik lagi
+button.onclick = null;
+}
 }
 
 function prosesData() {
-  const input = inputField.value.trim();
-  const parts = input.split(/\s+/);
+const input = inputField.value.trim();
+const parts = input.split(/\s+/);
 
-  let userId = parts[0] || "-";
-  let kodeTiket = "-";
-  let bettingan = "-";
-  let links = [];
+let userId = parts[0] || "-";
+let kodeTiket = "-";
+let bettingan = "-";
+let links = [];
 
-  for (let i = 1; i < parts.length; i++) {
-    const part = parts[i];
+for (let i = 1; i < parts.length; i++) {
+const part = parts[i];
 
-    if (part.startsWith("http")) {
-      links.push(part);
-    } else if (/^\d{15,20}$/.test(part)) {
-      kodeTiket = part;
-    } else if (part.toUpperCase().includes("BET")) {
-      const next = parts[i + 1] || "";
-      bettingan = next.split("-")[0].replace(/[^\d,]/g, "") || "-";
-    }
-  }
+if (part.startsWith("http")) {
+links.push(part);
+} else if (/^\d{15,20}$/.test(part)) {
+kodeTiket = part;
+} else if (part.toUpperCase().includes("BET")) {
+const next = parts[i + 1] || "";
+bettingan = next.split("-")[0].replace(/[^\d,]/g, "") || "-";
+}
+}
 
-  // Update semua kolom dengan ukuran yang konsisten
-  updateValue('userId', userId);
-  updateValue('kodeTiket', kodeTiket);
-  updateValue('bettingan', bettingan);
-  
-  // Update link bukti
-  if (links.length) {
-    updateLinkBukti(links);
-    showImagePreviews(links);
-  } else {
-    updateValue('linkBukti', '-');
-    showImagePreviews([]);
-  }
+// Update semua kolom dengan ukuran yang konsisten
+updateValue('userId', userId);
+updateValue('kodeTiket', kodeTiket);
+updateValue('bettingan', bettingan);
+
+// Jika TS aktif, pastikan badge ditampilkan
+if (isTSActive && userId !== '-') {
+document.getElementById('tsBadge').style.display = 'inline';
+}
+
+// Update link bukti
+if (links.length) {
+updateLinkBukti(links);
+showImagePreviews(links);
+
+// Simpan URL gambar pertama, kedua, dan ketiga untuk digunakan di menu perhitungan
+if (links.length >= 1) {
+gambarPertamaUrl = links[0];
+} else {
+gambarPertamaUrl = '';
+}
+
+if (links.length >= 2) {
+gambarKeduaUrl = links[1];
+} else {
+gambarKeduaUrl = '';
+}
+
+if (links.length >= 3) {
+gambarKetigaUrl = links[2];
+} else {
+gambarKetigaUrl = '';
+}
+} else {
+updateValue('linkBukti', '-');
+showImagePreviews([]);
+gambarPertamaUrl = '';
+gambarKeduaUrl = '';
+gambarKetigaUrl = '';
+}
 }
 
 function updateValue(elementId, value) {
-  const element = document.getElementById(elementId);
-  const valueContent = element.querySelector('.value-content');
-  
-  if (value === '-' || !value) {
-    valueContent.innerHTML = '<span class="empty-value">-</span>';
-  } else {
-    valueContent.innerHTML = value;
-  }
+const element = document.getElementById(elementId);
+const valueContent = element.querySelector('.value-content');
+
+if (value === '-' || !value) {
+valueContent.innerHTML = '<span class="empty-value">-</span>';
+} else {
+valueContent.innerHTML = value;
+}
 }
 
 function updateLinkBukti(links) {
-  const element = document.getElementById("linkBukti");
-  const valueContent = element.querySelector('.value-content');
-  
-  valueContent.innerHTML = `
-    <div class="links-container">
-      ${links.map(link => 
-        `<div class="link-item"><a href="${link}" target="_blank" tabindex="-1">${link}</a></div>`
-      ).join('')}
-    </div>
-  `;
+const element = document.getElementById("linkBukti");
+const valueContent = element.querySelector('.value-content');
+
+valueContent.innerHTML = `
+<div class="links-container">
+ ${links.map(link =>
+`<div class="link-item"><a href="${link}" target="_blank" tabindex="-1">${link}</a></div>`
+).join('')}
+</div>
+`;
 }
 
 function showImagePreviews(links) {
-  const grid = document.getElementById("imagesGrid");
-  
-  if (links.length === 0) {
-    grid.innerHTML = '<div class="no-preview">Belum ada data untuk ditampilkan</div>';
-    return;
-  }
-  
-  grid.innerHTML = '';
-  
-  // Buat preview untuk setiap link
-  links.forEach((link, index) => {
-    const imageItem = document.createElement('div');
-    imageItem.className = 'image-item';
-    imageItem.id = `imageItem-${index}`;
-    
-    // Judul gambar
-    const title = document.createElement('div');
-    title.className = 'image-title';
-    title.textContent = `Gambar ${index + 1}`;
-    
-    // Container untuk preview gambar
-    const imageContainer = document.createElement('div');
-    imageContainer.className = 'image-preview-container';
-    
-    // Placeholder
-    const placeholder = document.createElement('div');
-    placeholder.className = 'image-placeholder';
-    placeholder.textContent = 'Loading...';
-    
-    // Gambar preview yang bisa diklik
-    const imagePreview = document.createElement('img');
-    imagePreview.className = 'image-preview';
-    imagePreview.id = `imagePreview-${index}`;
-    imagePreview.onclick = function() {
-      window.open(link, '_blank');
-    };
-    
-    // Loading indicator
-    const loading = document.createElement('div');
-    loading.className = 'image-loading';
-    loading.id = `imageLoading-${index}`;
-    loading.textContent = 'Memuat gambar...';
-    
-    // Error message
-    const error = document.createElement('div');
-    error.className = 'image-error';
-    error.id = `imageError-${index}`;
-    error.textContent = 'Gagal memuat gambar';
-    
-    imageContainer.appendChild(placeholder);
-    imageContainer.appendChild(imagePreview);
-    imageContainer.appendChild(loading);
-    imageContainer.appendChild(error);
-    
-    imageItem.appendChild(title);
-    imageItem.appendChild(imageContainer);
-    grid.appendChild(imageItem);
-    
-    // Muat gambar
-    loadImagePreview(link, index);
-  });
+const grid = document.getElementById("imagesGrid");
+
+if (links.length === 0) {
+grid.innerHTML = '<div class="no-preview">Belum ada data untuk ditampilkan</div>';
+return;
+}
+
+grid.innerHTML = '';
+
+// Buat preview untuk setiap link
+links.forEach((link, index) => {
+const imageItem = document.createElement('div');
+imageItem.className = 'image-item';
+imageItem.id = `imageItem-${index}`;
+
+// Tambah class khusus untuk gambar ke-1, ke-2, dan ke-3
+if (index === 0) {
+imageItem.classList.add('gambar-pertama');
+} else if (index === 1) {
+imageItem.classList.add('gambar-kedua');
+} else if (index === 2) {
+imageItem.classList.add('gambar-ketiga');
+}
+
+// Judul gambar
+const title = document.createElement('div');
+title.className = 'image-title';
+title.textContent = `Gambar ${index + 1}`;
+
+// Container untuk preview gambar
+const imageContainer = document.createElement('div');
+imageContainer.className = 'image-preview-container';
+
+// Placeholder
+const placeholder = document.createElement('div');
+placeholder.className = 'image-placeholder';
+placeholder.textContent = 'Loading...';
+
+// Gambar preview yang bisa diklik
+const imagePreview = document.createElement('img');
+imagePreview.className = 'image-preview';
+imagePreview.id = `imagePreview-${index}`;
+imagePreview.onclick = function() {
+window.open(link, '_blank');
+};
+
+// Loading indicator
+const loading = document.createElement('div');
+loading.className = 'image-loading';
+loading.id = `imageLoading-${index}`;
+loading.textContent = 'Memuat gambar...';
+
+// Error message
+const error = document.createElement('div');
+error.className = 'image-error';
+error.id = `imageError-${index}`;
+error.textContent = 'Gagal memuat gambar';
+
+imageContainer.appendChild(placeholder);
+imageContainer.appendChild(imagePreview);
+imageContainer.appendChild(loading);
+imageContainer.appendChild(error);
+
+imageItem.appendChild(title);
+imageItem.appendChild(imageContainer);
+grid.appendChild(imageItem);
+
+// Muat gambar
+loadImagePreview(link, index);
+});
 }
 
 function loadImagePreview(url, index) {
-  const imagePreview = document.getElementById(`imagePreview-${index}`);
-  const imagePlaceholder = document.querySelector(`#imageItem-${index} .image-placeholder`);
-  const imageLoading = document.getElementById(`imageLoading-${index}`);
-  const imageError = document.getElementById(`imageError-${index}`);
-  
-  // Reset state
-  imagePreview.style.display = "none";
-  imagePlaceholder.style.display = "flex";
-  imageLoading.style.display = "none";
-  imageError.style.display = "none";
-  
-  // Coba muat gambar
-  const img = new Image();
-  img.onload = function() {
-    imagePreview.src = url;
-    imagePreview.style.display = "block";
-    imageLoading.style.display = "none";
-    imagePlaceholder.style.display = "none";
-  };
-  
-  img.onerror = function() {
-    imageLoading.style.display = "none";
-    imageError.style.display = "block";
-    imagePlaceholder.style.display = "flex";
-    imagePlaceholder.textContent = 'Gagal memuat';
-    imagePlaceholder.style.color = '#ff6b6b';
-  };
-  
-  img.src = url;
+const imagePreview = document.getElementById(`imagePreview-${index}`);
+const imagePlaceholder = document.querySelector(`#imageItem-${index} .image-placeholder`);
+const imageLoading = document.getElementById(`imageLoading-${index}`);
+const imageError = document.getElementById(`imageError-${index}`);
+
+// Reset state
+imagePreview.style.display = "none";
+imagePlaceholder.style.display = "flex";
+imageLoading.style.display = "none";
+imageError.style.display = "none";
+
+// Coba muat gambar
+const img = new Image();
+img.onload = function() {
+imagePreview.src = url;
+imagePreview.style.display = "block";
+imageLoading.style.display = "none";
+imagePlaceholder.style.display = "none";
+};
+
+img.onerror = function() {
+imageLoading.style.display = "none";
+imageError.style.display = "block";
+imagePlaceholder.style.display = "flex";
+imagePlaceholder.textContent = 'Gagal memuat';
+imagePlaceholder.style.color = '#ff6b6b';
+};
+
+img.src = url;
 }
 
 function resetSemua() {
-  inputField.value = "";
-  updateValue('userId', '-');
-  updateValue('kodeTiket', '-');
-  updateValue('linkBukti', '-');
-  updateValue('bettingan', '-');
-  showImagePreviews([]);
+inputField.value = "";
+updateValue('userId', '-');
+updateValue('kodeTiket', '-');
+updateValue('linkBukti', '-');
+updateValue('bettingan', '-');
+showImagePreviews([]);
+
+// Reset semua URL gambar
+gambarPertamaUrl = '';
+gambarKeduaUrl = '';
+gambarKetigaUrl = '';
+
+// Reset URL gambar gabungan
+if (gambarGabunganUrl) {
+URL.revokeObjectURL(gambarGabunganUrl);
+gambarGabunganUrl = '';
 }
+
+// Reset status TS
+const tsToggle = document.getElementById('tsToggle');
+if (tsToggle.checked) {
+tsToggle.checked = false;
+toggleTS();
+}
+
+// Reset menu Scatter Mahjong
+const buttons = document.querySelectorAll('.scatter-btn');
+buttons.forEach(btn => btn.classList.remove('active'));
+selectedScatter = 'scatterMahjong';
+
+// Reset perhitungan scatter
+document.getElementById('perhitunganContainer').style.display = 'none';
+document.getElementById('inputKemenanganNaga').value = '';
+document.getElementById('inputSaldoKanan').value = '';
+
+// Reset event container
+document.getElementById('eventContainer').style.display = 'none';
+document.getElementById('eventDataForSum').value = '';
+// Bagian hasil detail sudah tidak perlu di-reset karena disembunyikan
+// document.getElementById('hasilTotalCreditIDREvent').style.display = 'none';
+// Reset Total Credit Display
+document.getElementById('totalCreditValueEvent').textContent = 'IDR 0';
+
+// Reset penjumlahan credit IDR
+document.getElementById('seamlessDataForSum').value = '';
+document.getElementById('hasilTotalCreditIDR').style.display = 'none';
+
+// Reset tombol copy ke state awal
+const copyButtons = document.querySelectorAll('.copy-btn');
+copyButtons.forEach(button => {
+button.classList.remove('copied');
+// Kembalikan event listener sesuai dengan kolomnya
+const buttonId = button.id;
+
+if (buttonId === 'copyUserIdBtn') {
+button.onclick = copyUserId;
+} else if (buttonId === 'copyKodeTiketBtn') {
+button.onclick = copyKodeTiket;
+} else if (buttonId === 'copyLinkBuktiBtn') {
+button.onclick = copyLinkBukti;
+} else if (buttonId === 'copyBettinganBtn') {
+button.onclick = copyBettingan;
+}
+});
+
+// Tampilkan kembali DATA SCATTER dan PREVIEW GAMBAR BUKTI
+document.getElementById('dataScatterContainer').style.display = 'block';
+document.getElementById('previewContainer').style.display = 'block';
+}
+
+// Inisialisasi
+window.onload = function() {
+console.log("Sistem Scatter Mahjong Ways telah dimuat");
+updateDisplayRumus();
+};
 </script>
 
 </body>
