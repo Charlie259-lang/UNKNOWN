@@ -53,7 +53,7 @@ inset 0 0 15px rgba(0, 180, 216, 0.1);
 .main-container {
 display: flex;
 gap: 30px;
-max-width: 1100px; /* DIPERBESAR dari 1000px */
+max-width: 1100px;
 width: 100%;
 justify-content: center;
 align-items: flex-start;
@@ -65,7 +65,7 @@ z-index: 1;
 display: flex;
 flex-direction: column;
 align-items: center;
-width: 650px; /* DIPERBESAR dari 560px */
+width: 650px;
 }
 
 .preview-section {
@@ -905,7 +905,7 @@ flex-direction: column;
 justify-content: center;
 align-items: center;
 text-align: center;
-height: 180px; /* DIPERBESAR dari 130px */
+height: 180px;
 box-sizing: border-box;
 }
 
@@ -924,7 +924,21 @@ font-weight: bold;
 
 /* NEW: Style khusus untuk textarea di menu event */
 .event-seamless-input {
-height: 180px; /* DIPERBESAR dari 130px */
+height: 180px;
+}
+
+/* NEW: Style untuk memperkecil kolom di menu Scatter Mahjong dan Perhitungan Scatter */
+#dataScatterContainer #inputData {
+height: 100px; /* DIPERKECIL dari 130px */
+}
+
+#perhitunganContainer .seamless-input {
+height: 100px; /* DIPERKECIL dari 130px */
+}
+
+#perhitunganContainer .kemenangan-input,
+#perhitunganContainer .saldo-kanan-input {
+padding: 6px 10px; /* DIPERKECIL dari 8px 12px */
 }
 </style>
 </head>
@@ -1249,7 +1263,7 @@ const eventData = document.getElementById('eventDataForSum').value.trim();
 // PERBAIKAN: Kembalikan fungsi parsing ke versi yang lebih sederhana namun akurat
 function parseIDRValue(text) {
 // Hapus semua karakter non-digit
-let cleanText = text.replace(/[^\d]/g, '');
+let cleanText = text.replace(/[^\d]/g, '')
 
 // Konversi ke angka
 const value = parseFloat(cleanText);
@@ -1718,7 +1732,7 @@ closeModal();
 
 // PERBAIKAN: Format input kemenangan naga
 function formatKemenanganInput(input) {
-let value = input.value.replace(/[^\d]/g, '');
+let value = input.value.replace(/[^\d]/g, '')
 
 if (value.length > 3) {
 value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -1729,7 +1743,7 @@ input.value = value;
 
 // PERBAIKAN: Format input saldo kanan
 function formatSaldoKanan(input) {
-let value = input.value.replace(/[^\d]/g, '');
+let value = input.value.replace(/[^\d]/g, '')
 
 if (value.length > 3) {
 value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
