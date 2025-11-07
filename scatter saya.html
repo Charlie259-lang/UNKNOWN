@@ -748,7 +748,7 @@ font-weight: bold;
 display: none;
 }
 
-/* Modal untuk preview gambar besar */
+/* Modal untuk preview gambar besar - PERBAIKAN UNTUK FULL SCREEN */
 .modal {
 display: none;
 position: fixed;
@@ -757,15 +757,16 @@ left: 0;
 top: 0;
 width: 100%;
 height: 100%;
-background-color: rgba(0, 0, 0, 0.9);
+background-color: rgba(0, 0, 0, 0.95);
 animation: fadeIn 0.3s;
 }
 
+/* PERBAIKAN: Modal content untuk gambar gabungan full screen */
 .modal-content {
 margin: auto;
 display: block;
-max-width: 90%;
-max-height: 90%;
+width: 95vw; /* 95% viewport width */
+height: 95vh; /* 95% viewport height */
 position: absolute;
 top: 50%;
 left: 50%;
@@ -773,22 +774,34 @@ transform: translate(-50%, -50%);
 border-radius: 8px;
 border: 3px solid #00b4d8;
 box-shadow: 0 0 30px rgba(0, 180, 216, 0.5);
+object-fit: contain; /* Memastikan gambar muat tanpa distorsi */
 }
 
+/* PERBAIKAN: Close button yang lebih besar dan lebih mudah dilihat */
 .close {
 position: absolute;
 top: 20px;
 right: 35px;
-color: #00b4d8;
-font-size: 40px;
+color: #ffffff;
+font-size: 50px;
 font-weight: bold;
 cursor: pointer;
-transition: color 0.3s ease;
+transition: color 0.3s ease, transform 0.3s ease;
 z-index: 1001;
+background: rgba(0, 0, 0, 0.7);
+width: 60px;
+height: 60px;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+border: 2px solid #00b4d8;
 }
 
 .close:hover {
-color: #ffffff;
+color: #00b4d8;
+transform: scale(1.1);
+background: rgba(0, 0, 0, 0.9);
 }
 
 @keyframes fadeIn {
@@ -1464,9 +1477,9 @@ return;
 const canvas = document.getElementById('mergeCanvas');
 const ctx = canvas.getContext('2d');
 
-// Ukuran canvas untuk 3 gambar horizontal
-const canvasWidth = 900;  // 300px per gambar
-const canvasHeight = 200; // 200px tinggi
+// PERBAIKAN: Ukuran canvas yang lebih besar untuk tampilan full screen
+const canvasWidth = 2400;  // Diperbesar signifikan untuk kualitas full screen
+const canvasHeight = 800;   // Diperbesar signifikan untuk kualitas full screen
 
 canvas.width = canvasWidth;
 canvas.height = canvasHeight;
@@ -1511,32 +1524,16 @@ const yPos = (gambarHeight - scaledHeight) / 2;
 
 ctx.drawImage(image, xPos, yPos, scaledWidth, scaledHeight);
 
-// Tambahkan border antar gambar
-if (idx < urls.length - 1) {
-ctx.strokeStyle = '#00b4d8';
-ctx.lineWidth = 2;
-ctx.beginPath();
-ctx.moveTo((idx + 1) * gambarWidth, 0);
-ctx.lineTo((idx + 1) * gambarWidth, canvasHeight);
-ctx.stroke();
-}
+// HAPUS: Tidak ada lagi border antar gambar
 });
 
-// Tambahkan label untuk setiap gambar
-ctx.fillStyle = '#00b4d8';
-ctx.font = 'bold 14px Arial';
-ctx.textAlign = 'center';
+// HAPUS: Tidak ada lagi label untuk setiap gambar
 
-urls.forEach((url, idx) => {
-const x = idx * gambarWidth + gambarWidth / 2;
-ctx.fillText(`Gambar ${idx + 1}`, x, canvasHeight - 10);
-});
-
-// Konversi canvas ke data URL
+// Konversi canvas ke data URL dengan kualitas tinggi
 canvas.toBlob(function(blob) {
 const url = URL.createObjectURL(blob);
 callback(url);
-}, 'image/jpeg', 0.9);
+}, 'image/jpeg', 0.95); // Kualitas lebih tinggi untuk full screen
 }
 };
 
@@ -1571,29 +1568,15 @@ const yPos = (gambarHeight - scaledHeight) / 2;
 
 ctx.drawImage(image, xPos, yPos, scaledWidth, scaledHeight);
 
-if (idx < images.length - 1) {
-ctx.strokeStyle = '#00b4d8';
-ctx.lineWidth = 2;
-ctx.beginPath();
-ctx.moveTo((idx + 1) * gambarWidth, 0);
-ctx.lineTo((idx + 1) * gambarWidth, canvasHeight);
-ctx.stroke();
-}
+// HAPUS: Tidak ada lagi border antar gambar
 });
 
-ctx.fillStyle = '#00b4d8';
-ctx.font = 'bold 14px Arial';
-ctx.textAlign = 'center';
-
-images.forEach((image, idx) => {
-const x = idx * gambarWidth + gambarWidth / 2;
-ctx.fillText(`Gambar ${idx + 1}`, x, canvasHeight - 10);
-});
+// HAPUS: Tidak ada lagi label untuk setiap gambar
 
 canvas.toBlob(function(blob) {
 const url = URL.createObjectURL(blob);
 callback(url);
-}, 'image/jpeg', 0.9);
+}, 'image/jpeg', 0.95);
 } else {
 callback(null);
 }
